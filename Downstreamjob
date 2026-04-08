@@ -52,17 +52,17 @@ def SetNodeBuildflowCount(node, count)
 
 
 //-------------------------------------------------------Check Parameters-------------------------------------------------------//
-def asicFamilies = params["asicFamilies"].split(", ")
+def Name of the machine = params["Name of the machine"].split(", ")
 def build_id = params["build_id"].replaceAll("\\s","")
 def skipSetup = params["Skip_Setup"]
 
 // Print Parameters
 println("\n\n\n")
 println("----------------------------------------------------------------------------------------------")
-println("DXXP_Test Start...")
+println("Job_Test Start...")
 println "\tCurrent date: ${new Date()}."
 println("\tInput Params:")
-println("\tasicFamilies: " + asicFamilies)
+println("\tName of the machine: " + Name of the machine)
 println("\tBuildId: " + build_id)
 println("\tSkip_Setup: " + skipSetup)
 println("\temail_list: " + params["email_list"])
@@ -81,7 +81,7 @@ println("-----------------------------------------------------------------------
 
 asicFamilies.each { asicFamily ->
   println("----------------------------------------------------------------------------------------------")
-  println("Searching Node for Asic: " + asicFamily)
+  println("Searching Node for Machine: " + Name of the machine)
   def availabe_nodes = []
   for (node in hudson.model.Hudson.instance.slaves)
   {
@@ -91,7 +91,7 @@ asicFamilies.each { asicFamily ->
     
     for (str in splitLabels)
     {    
-      if (str.equalsIgnoreCase(asicFamily))
+      if (str.equalsIgnoreCase(Name of the machine))
       {
         println("found node " + node.name + " with label " + str)
         if (node.getComputer().isOffline())
@@ -110,8 +110,8 @@ asicFamilies.each { asicFamily ->
   if (availabe_nodes.isEmpty())
   {
     
-    println("Debug: Could not find nodes with asic label: " + asicFamily)
-    offlineAsics.add(asicFamily)
+    println("Debug: Could not find nodes with Machine label: " + Name of the machine)
+    offlineMachine.add(Name of the machine)
   }
   else
   {
@@ -148,14 +148,14 @@ def enclosures = []
 
 runNodes.each { node->
   enclosures.add(
-    {build('TestDispatcher_Test',
+    {build('Upstreamjob',
            Node: node,
            Build_id: build_id,
            Skip_Setup: skipSetup,
-           Driver_Type: "Mainline",
-           Timeout_Minutes: 540,
+           Driver_Type: "***",
+           Timeout_Minutes: ***,
            Setup_Jobs: params["Setup_Jobs"],
-           AMD_Tests: params["AMD_Tests"],
+           JOB_Tests: params["JOB_Tests"],
            WHQL_Custom_Tests: "",
            HLK_Encode_Tests: params["HLK_Encode_Tests"],
            HLK_Decode_Tests: params["HLK_Decode_Tests"],
@@ -169,7 +169,7 @@ runNodes.each { node->
 
 parallel (enclosures)
 
-if (!offlineAsics.empty)
+if (!offlineMachine.empty)
 {
   // print warning (It will show up in email report)
   println("WARNING: Offline Asic Detected: " + offlineAsics.join(", "))
