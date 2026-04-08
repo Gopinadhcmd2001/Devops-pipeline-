@@ -1,0 +1,176 @@
+import hudson.model.*
+import jenkins.model.*
+
+//-------------------------------------------------------Utility Functions------------------------------------------------------//
+def getCurrNode(nodeName)
+{
+  for (currNode in hudson.model.Hudson.instance.slaves)
+  {
+    if (currNode.nodeName == nodeName)
+    {
+      return currNode
+    }
+  }
+  println("ERROR: Could not get node '" + nodeName + "'")
+  return null
+}
+
+def GetNodeBuildflowCount(node)
+{
+  def props = node.nodeProperties.getAll(hudson.slaves.EnvironmentVariablesNodeProperty.class)
+  //println ("props" + props )
+  for (prop in props)
+  {
+    for (envvar in prop.envVars)
+    {
+      //println ("envvar" + envvar)
+      if (envvar.key == "buildflowCount")
+      {
+        println("[${node.name}] Get buildflowCount = " + envvar.value)
+        return envvar.value
+      }
+    }
+  }
+  return "0"
+}
+
+def SetNodeBuildflowCount(node, count)
+{
+  def props = node.nodeProperties.getAll(hudson.slaves.EnvironmentVariablesNodeProperty.class)
+  for (prop in props)
+  {
+    for (envvar in prop.envVars)
+    {
+      if (envvar.key == "buildflowCount")
+      {
+        println("[${node.name}] Set buildflowCount = " + count)
+  		envvar.value = count
+      }
+    }
+  }  
+}
+
+
+//-------------------------------------------------------Check Parameters-------------------------------------------------------//
+def asicFamilies = params["asicFamilies"].split(", ")
+def build_id = params["build_id"].replaceAll("\\s","")
+def skipSetup = params["Skip_Setup"]
+
+// Print Parameters
+println("\n\n\n")
+println("----------------------------------------------------------------------------------------------")
+println("DXXP_Test Start...")
+println "\tCurrent date: ${new Date()}."
+println("\tInput Params:")
+println("\tasicFamilies: " + asicFamilies)
+println("\tBuildId: " + build_id)
+println("\tSkip_Setup: " + skipSetup)
+println("\temail_list: " + params["email_list"])
+println("----------------------------------------------------------------------------------------------")
+println("\n\n\n")
+
+
+
+//-----------------------------------------------------Check Available Node-----------------------------------------------------//
+def runNodes = []
+def offlineAsics = []
+
+println("----------------------------------------------------------------------------------------------")
+println("Looking for available nodes...")
+println("----------------------------------------------------------------------------------------------")
+
+asicFamilies.each { asicFamily ->
+  println("----------------------------------------------------------------------------------------------")
+  println("Searching Node for Asic: " + asicFamily)
+  def availabe_nodes = []
+  for (node in hudson.model.Hudson.instance.slaves)
+  {
+    
+    // check for label membership
+    def splitLabels = node.getLabelString().split()
+    
+    for (str in splitLabels)
+    {    
+      if (str.equalsIgnoreCase(asicFamily))
+      {
+        println("found node " + node.name + " with label " + str)
+        if (node.getComputer().isOffline())
+        {
+        println("Node " + node.name + " is offline or is NOT a PSDB node...")
+        }
+        else
+        {
+          availabe_nodes.add(node)
+        }
+        break
+      }
+    }
+  }
+  
+  if (availabe_nodes.isEmpty())
+  {
+    
+    println("Debug: Could not find nodes with asic label: " + asicFamily)
+    offlineAsics.add(asicFamily)
+  }
+  else
+  {
+    def minbuildflowCount = 3
+    def nodeStr = ""
+    println( "available nodes" + availabe_nodes)
+    for (node in availabe_nodes)
+    {
+      // Pick an available node with min buildflowCount
+      def buildflowCount = GetNodeBuildflowCount(getCurrNode(node.name)).toInteger()
+      //println( "buildflowCount" + buildflowCount)
+      if(buildflowCount < minbuildflowCount)
+      {
+        nodeStr = node.name
+        minbuildflowCount = buildflowCount
+      }
+    }
+    if(nodeStr != "")
+    {
+      println("Assigning buildflow to node: " + nodeStr)
+      minbuildflowCount = minbuildflowCount + 1
+      SetNodeBuildflowCount(getCurrNode(nodeStr), String.valueOf(minbuildflowCount))
+      runNodes.add(nodeStr)
+    }
+  }
+  println("----------------------------------------------------------------------------------------------")
+}
+
+println("Debug: Here is our nodeList: " + runNodes)
+
+
+//----------------------------------------------------Trigger Jobs on Nodes-----------------------------------------------------//
+def enclosures = []
+
+runNodes.each { node->
+  enclosures.add(
+    {build('TestDispatcher_Test',
+           Node: node,
+           Build_id: build_id,
+           Skip_Setup: skipSetup,
+           Driver_Type: "Mainline",
+           Timeout_Minutes: 540,
+           Setup_Jobs: params["Setup_Jobs"],
+           AMD_Tests: params["AMD_Tests"],
+           WHQL_Custom_Tests: "",
+           HLK_Encode_Tests: params["HLK_Encode_Tests"],
+           HLK_Decode_Tests: params["HLK_Decode_Tests"],
+           HLK_VideoProcessing: params["HLK_VideoProcessing"],
+           HLK_VideoProcessor: params["HLK_VideoProcessor"],
+           HLK_Camera_Tests: params["HLK_Camera_Tests"],
+           HLK_DX12_Tests: "")
+    }
+  )
+}
+
+parallel (enclosures)
+
+if (!offlineAsics.empty)
+{
+  // print warning (It will show up in email report)
+  println("WARNING: Offline Asic Detected: " + offlineAsics.join(", "))
+}
