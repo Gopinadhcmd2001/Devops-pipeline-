@@ -2,13 +2,13 @@ import hudson.model.*
 import jenkins.model.*
 
 //-------------------------------------------------------Utility Functions------------------------------------------------------//
-def AddTestwithFilter(enclosures, testName, TestNode, isHLK)	//Filtering the tests for different ASICs.
+def AddTestwithFilter(enclosures, testName, TestNode, isHLK)	//Filtering the tests for different Machines.
 {
   //return true  --> Run
   //	   false --> Don't Run
-  if (testName.indexOf('DPM Residency Test') > -1)
+  if (testName.indexOf('Name of the Test') > -1)
   {
-    if (TestNode.indexOf('RAVEN') > -1 || TestNode.indexOf('PICASSO') > -1 || TestNode.indexOf('RENOIR') > -1)
+    if (TestNode.indexOf('Machine1') > -1 || TestNode.indexOf('Machine2') > -1 || TestNode.indexOf('Machine3') > -1)
     {
       enclosures.add({retry 2, {build(testName, node:TestNode)}})
       println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
@@ -18,10 +18,10 @@ def AddTestwithFilter(enclosures, testName, TestNode, isHLK)	//Filtering the tes
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
   }
-  else if (testName.indexOf('Vulkan Decode Test DTP') > -1)
+  else if (testName.indexOf('Name of the Testcase**') > -1)
   {
-    if (TestNode.indexOf('BAFFIN')  > -1 || TestNode.indexOf('ELLESMERE') > -1 || TestNode.indexOf('RAVEN')  > -1 || 
-        TestNode.indexOf('PICASSO') > -1 || TestNode.indexOf('VEGA')      > -1 || TestNode.indexOf('NAVI')   > -1)
+    if (TestNode.indexOf('Machine1')  > -1 || TestNode.indexOf('Machine2') > -1 || TestNode.indexOf('Machine3')  > -1 || 
+        TestNode.indexOf('Machine4') > -1 || TestNode.indexOf('Machine5')      > -1 || TestNode.indexOf('Machine6')   > -1)
     {
       enclosures.add({retry 2, {build(testName, node:TestNode)}})
       println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
@@ -31,9 +31,9 @@ def AddTestwithFilter(enclosures, testName, TestNode, isHLK)	//Filtering the tes
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
   }
-  else if (testName.indexOf('VTApp DTP') > -1)
+  else if (testName.indexOf('Name of the Testcase**') > -1)
   {
-    if (TestNode.indexOf('BONAIRE') > -1 || TestNode.indexOf('HAWAII') > -1 || TestNode.indexOf('TAHITI')  > -1 || TestNode.indexOf('H-SV2-PHX-5') > -1)
+    if (TestNode.indexOf('Machine1') > -1 || TestNode.indexOf('Machine2') > -1 || TestNode.indexOf('Machine3')  > -1 || TestNode.indexOf('Machine4') > -1)
     {
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
@@ -43,35 +43,10 @@ def AddTestwithFilter(enclosures, testName, TestNode, isHLK)	//Filtering the tes
       println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
     }
   }
-  else if (testName.indexOf('D3D11_DecodeHistogram DTP') > -1)
+  else if (testName.indexOf('Name of the Testcase**') > -1)
   {
-    if (TestNode.indexOf('navi10') > -1 || TestNode.indexOf('navi14') > -1 || TestNode.indexOf('H-SV2-PHX-5') > -1)
-    {
-      println("Debug: Skipping: " + testName + " on Node: " + TestNode)
-    }
-    else
-    {
-      enclosures.add({retry 2, {build(testName, node:TestNode)}})
-      println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
-    }
-  }
-  else if (testName.indexOf('HSP_Test') > -1)
-  {
-    if (TestNode.indexOf('BONAIRE') > -1 || TestNode.indexOf('HAWAII')  > -1 || TestNode.indexOf('TAHITI')  > -1 || 
-        TestNode.indexOf('CARRIZO') > -1 || TestNode.indexOf('VEGA12')  > -1 || TestNode.indexOf('H-SV2-PHX-5') > -1) //disabled VG12 since we only have unsecured board
-    {
-      println("Debug: Skipping: " + testName + " on Node: " + TestNode)
-    }
-    else
-    {
-      enclosures.add({retry 2, {build(testName, node:TestNode)}})
-      println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
-    }
-  }
-  else if (testName.indexOf('Multi Session Playback DTP') > -1)
-  {
-    if (TestNode.indexOf('BONAIRE') > -1 || TestNode.indexOf('HAWAII')  > -1 || TestNode.indexOf('TAHITI')  > -1 || 
-        TestNode.indexOf('CARRIZO') > -1)
+    if (TestNode.indexOf('Machine1') > -1 || TestNode.indexOf('Machine2')  > -1 || TestNode.indexOf('Machine3')  > -1 || 
+        TestNode.indexOf('Machine4') > -1)
     {
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
@@ -81,12 +56,11 @@ def AddTestwithFilter(enclosures, testName, TestNode, isHLK)	//Filtering the tes
     }
   }
   
-  else if (testName.indexOf('DetailedEnhancementTest') > -1)
+  else if (testName.indexOf('Name of the test') > -1)
   {
-    if (TestNode.indexOf('H-SV2-NV10-1') > -1 || TestNode.indexOf('H-SV2-NV10-2') > -1 ||
-        TestNode.indexOf('H-SV3-NV10-7') > -1 || TestNode.indexOf('H-SV2-NV10-4') > -1 ||
-        TestNode.indexOf('H-SV3-PHX-2') > -1  || TestNode.indexOf('H-SV3-NV21-5') > -1 || 
-        TestNode.indexOf('H-SV2-PHX-5') > -1  || TestNode.indexOf('H-SV3-STX-1') > -1)
+    if (TestNode.indexOf('Machine1') > -1 || TestNode.indexOf('Machine2') > -1 ||
+        TestNode.indexOf('Machine3') > -1 || TestNode.indexOf('Machine4') > -1 ||
+        TestNode.indexOf('Machine5') > -1  || TestNode.indexOf('Machine6') > -1)
     {
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
@@ -96,240 +70,104 @@ def AddTestwithFilter(enclosures, testName, TestNode, isHLK)	//Filtering the tes
     } 
     
   }
-  
-  else if (testName.indexOf('DX11 3D Stereo Video DTP') > -1) 
+  else if (testName.indexOf('Name of the Testcase**') > -1) 
           
   {
-    if (TestNode.indexOf('H-SV3-STX-1') > -1 )
+    if (TestNode.indexOf('Machine1') > -1 )
     {
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
      else
     {
       enclosures.add(
-        {retry 2, {build("DX11 3D Stereo Video DTP", node: TestNode, RunType: "Custom", testNames: testName)}})
+        {retry 2, {build("Name of the Testcase**", node: TestNode, RunType: "Custom", testNames: testName)}})
       println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
     }
   }
-  else if (testName.indexOf('DX11 Video Decode DTP') > -1)
+  else if (testName.indexOf('Name of the Testcase**') > -1)
         
   {
-    if (TestNode.indexOf('H-SV3-STX-1') > -1  || TestNode.indexOf('H-SV3-NV10-7') > -1)
+    if (TestNode.indexOf('Machine1') > -1  || TestNode.indexOf('Machine2') > -1)
     {
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
      else
     {
       enclosures.add(
-        {retry 2, {build("DX11 Video Decode DTP", node: TestNode, RunType: "Custom", testNames: testName)}})
+        {retry 2, {build("Name of the Testcase**", node: TestNode, RunType: "Custom", testNames: testName)}})
       println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
     }
   }
-  else if (testName.indexOf('DX11 Video Decode DTP') > -1) 
+  else if (testName.indexOf('Name of the Testcase**') > -1) 
           
   {
-    if (TestNode.indexOf('H-SV3-NV10-7') > -1 )
+    if (TestNode.indexOf('Machine') > -1 )
     {
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
      else
     {
       enclosures.add(
-        {retry 2, {build("DX11 Video Decode DTP", node: TestNode, RunType: "Custom", testNames: testName)}})
+        {retry 2, {build("Name of the Testcase**", node: TestNode, RunType: "Custom", testNames: testName)}})
       println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
     }
   }
   
 
-  else if (testName.indexOf('AV1 Profile0 Playback Test 1') > -1 || 
-          testName.indexOf('AV1 Profile0 Playback Test 2') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 3') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 4') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 5') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 6') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 7') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 8') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 9') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 10') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 11') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 12') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 13') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 14') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 15') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 16') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 17') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 18') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 19') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 20') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 21') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 22') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 23') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 24') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 25') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 26') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 27') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 28') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 29') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 30') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 31') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 32') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 33') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 34') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 35') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 36') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 37') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 38') > -1 ||
-          testName.indexOf('AV1 Profile0 SW-DRM Video 5') > -1 ||
-          testName.indexOf('AV1 Profile0 SW-DRM Video 6') > -1 ||
-          testName.indexOf('AV1 Profile0 SW-DRM Video 7') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback DXGISwapchain Test 1') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback DXGISwapchain Test 5') > -1 ||
-          testName.indexOf('AV1 Profile0 HW-DRM_CBCS Test') > -1 ||
-          testName.indexOf('AV1 Profile0 HW-DRM CENC Test') > -1 ||
-          testName.indexOf('AV1 Profile0 HW-DRM Video 1') > -1 ||
-          testName.indexOf('AV1 Profile0 HW-DRM Video 2') > -1 ||
-          testName.indexOf('AV1 Profile0 HW-DRM Video 3') > -1 ||
-          testName.indexOf('AV1 Profile0 Playback Test 39') > -1 )
+  else if (testName.indexOf('Name of the Test 1') > -1 || 
+          testName.indexOf('Name of the Test 2') > -1 ||
+          testName.indexOf('Name of the Test 3') > -1 )
   {
-    if (TestNode.indexOf('H-SV2-NV10-1') > -1 || TestNode.indexOf('H-SV2-NV10-2') > -1 ||
-        TestNode.indexOf('H-SV3-NV10-7') > -1 || TestNode.indexOf('H-SV2-NV10-4') > -1 ||
-        TestNode.indexOf('H-SV2-NV14-1') > -1 || TestNode.indexOf('H-SV3-STX-2') > -1)
+    if (TestNode.indexOf('Machine1') > -1 || TestNode.indexOf('Machine2') > -1 ||
+        TestNode.indexOf('Machine3') > -1 || TestNode.indexOf('Machine4') > -1)
     {
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
      else
     {
       enclosures.add(
-        {retry 2, {build("HLK_Multimedia_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
+        {retry 2, {build("WHQL_MSFT_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
       println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
     }
   }
-  else if (testName.indexOf('MPEG2 Playback Test 1') > -1 ||
-          testName.indexOf('MPEG2 Playback Test 2') > -1 ||
-          testName.indexOf('MPEG2 Playback Test 3') > -1 ||
-          testName.indexOf('MPEG2 Playback Test 4') > -1 ||
-          testName.indexOf('MPEG2 Playback Test 5') > -1 ||
-          testName.indexOf('MPEG2 Playback Test 6') > -1 ||
-          testName.indexOf('MPEG2 Playback Test 7') > -1 ||
-          testName.indexOf('MPEG2 Playback Test 8') > -1 ||
-          testName.indexOf('MPEG2 Playback Test 9') > -1 ||
-          testName.indexOf('MPEG2 Playback Test 10') > -1)
+  else if (testName.indexOf('Name of the Test 1') > -1 ||
+          testName.indexOf('Name of the Test 10') > -1)
   {
-    if (TestNode.indexOf('H-SV2-NV31-0') > -1 || TestNode.indexOf('H-SV3-NV31-2') > -1 ||
-        TestNode.indexOf('H-SV2-NV31-1') > -1 || TestNode.indexOf('H-SV2-NV31-3') > -1 || 
-        TestNode.indexOf('H-SV2-NV31-4') > -1 || TestNode.indexOf('H-SV2-NV31-5') > -1 || 
-        TestNode.indexOf('H-SV2-NV31-6') > -1 || TestNode.indexOf('H-SV2-NV31-7') > -1 || 
-        TestNode.indexOf('H-SV3-NV33-10') > -1 || TestNode.indexOf('H-SV2-NV32-1') > -1 || 
-        TestNode.indexOf('H-SV2-NV33-1') > -1 || TestNode.indexOf('H-SV2-NV32-2') > -1 || 
-        TestNode.indexOf('H-SV3-PHX-2') > -1 || TestNode.indexOf('H-SV2-PHX-4') > -1 ||
-        TestNode.indexOf('H-SV3-STRX-1') > -1 || TestNode.indexOf('H-SV3-STX-1') > -1 ||
-        TestNode.indexOf('H-SV3-STX-2') > -1 || TestNode.indexOf('H-SV3-NV48-1') > -1 || 
-        TestNode.indexOf('H-SV3-NV33-2') > -1 ) 
+    if (TestNode.indexOf('Machine1') > -1 || TestNode.indexOf('Machine2') > -1 ||
+        TestNode.indexOf('Machine3') > -1 ) 
     {
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
      else
     {
       enclosures.add(
-        {retry 2, {build("HLK_Multimedia_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
+        {retry 2, {build("WHQL_MSFT_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
       println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
     }
   }
-  else if (testName.indexOf('WMV playback test 1') > -1 || 
-          testName.indexOf('WMV playback test 2') > -1 ||
-          testName.indexOf('WMV playback test 3') > -1 ||
-          testName.indexOf('WMV playback test 4') > -1 ||
-          testName.indexOf('WMV playback test 5') > -1 ||
-          testName.indexOf('WMV playback test 6') > -1 ||
-          testName.indexOf('WMV playback test 7') > -1 ||
-          testName.indexOf('WMV playback test 8') > -1 ||
-          testName.indexOf('WMV playback test 9') > -1 ||
-          testName.indexOf('WMV playback test 10') > -1 ||
-          testName.indexOf('WMV playback test 11') > -1 ||
-          testName.indexOf('WMV playback test 12') > -1 ||
-          testName.indexOf('WMV playback test 13') > -1 ||
-          testName.indexOf('WMV playback test 14') > -1 ||
-          testName.indexOf('WMV playback test 15') > -1 ||
-          testName.indexOf('WMV playback test 16') > -1 ||
-          testName.indexOf('WMV playback test 17') > -1 ||
-          testName.indexOf('WMV playback test 18') > -1 ||
-          testName.indexOf('WMV playback test 19') > -1 ||
-          testName.indexOf('WMV playback test 20') > -1 ||
-          testName.indexOf('WMV playback test 21') > -1 || 
-          testName.indexOf('WMV fuzz test 1') > -1 ||
-          testName.indexOf('WMV fuzz test 2') > -1 ||
-          testName.indexOf('WMV fuzz test 3') > -1)
+  else if (testName.indexOf('Name of the test 1') > -1 || 
+          testName.indexOf('Name of the test 3') > -1)
   {
-    if (TestNode.indexOf('H-SV3-NV31-2') > -1 || TestNode.indexOf('H-SV2-NV31-1') > -1 ||
-        TestNode.indexOf('H-SV2-NV31-3') > -1 || TestNode.indexOf('H-SV2-NV31-4') > -1 ||
-        TestNode.indexOf('H-SV2-NV31-5') > -1 || TestNode.indexOf('H-SV2-NV31-6') > -1 ||
-        TestNode.indexOf('H-SV2-NV31-7') > -1 || TestNode.indexOf('H-SV2-NV31-10') > -1 ||
-        TestNode.indexOf('H-SV2-NV32-1') > -1 || TestNode.indexOf('H-SV2-NV33-1') > -1 ||
-        TestNode.indexOf('H-SV3-PHX-2') > -1 || TestNode.indexOf('H-SV2-PHX-4') > -1 ||
-        TestNode.indexOf('H-SV3-STRX-1') > -1 || TestNode.indexOf('H-SV2-NV32-2') > -1 ||
-        TestNode.indexOf('H-SV3-NV33-10)') > -1 || TestNode.indexOf('H-SV3-STX-1') > -1 || 
-        TestNode.indexOf('H-SV3-STX-2') > -1 || TestNode.indexOf('H-SV3-NV48-1') > -1 ||
-        TestNode.indexOf('H-SV3-NV33-2') > -1)
+    if (TestNode.indexOf('Machine1') > -1 ||
+        TestNode.indexOf('Machine2') > -1)
     {
       println("Debug: Skipping: " + testName + " on Node: " + TestNode)
     }
      else
     {
       enclosures.add(
-        {retry 2, {build("HLK_Multimedia_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
+        {retry 2, {build("WHQL_MSFT_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
       println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
     }
   }
-  else if (testName.indexOf('D3D12 - Motion estimation') > -1)
+  else if (testName.indexOf('Name of the test 1') > -1 ||
+          testName.indexOf('Name of the test 2') > -1 ||
+		  testName.indexOf('Name of the test 3') > -1)
   {
-    if (TestNode.indexOf('BAFFIN') > -1 || TestNode.indexOf('ELLESMERE')  > -1 || TestNode.indexOf('LEXA')  > -1)
-    {
-      println("Debug: Skipping: " + testName + " on Node: " + TestNode)
-    }
-    else
+    if (TestNode.indexOf('Machine') > -1) 
     {
       enclosures.add(
-        {retry 2, {build("HLK_Multimedia_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
-      println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
-    }
-  }
-  else if (testName.indexOf('D3D12 - SingleCommandListTimestampsProcess') > -1)
-  {
-    if (TestNode.indexOf('RAVEN1') > -1 || TestNode.indexOf('RAVEN2')  > -1 || TestNode.indexOf('PICASSO')  > -1 ||
-        TestNode.indexOf('VEGA12') > -1)
-    {
-      println("Debug: Skipping: " + testName + " on Node: " + TestNode)
-    }
-    else
-    {
-      enclosures.add(
-        {retry 2, {build("HLK_Multimedia_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
-      println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
-    }
-  }
-  else if (testName.indexOf('D3D12 - SingleCommandListTimestampsDecode') > -1)
-  {
-    if (TestNode.indexOf('RAVEN2') > -1 || TestNode.indexOf('VEGA12')  > -1)
-    {
-      println("Debug: Skipping: " + testName + " on Node: " + TestNode)
-    }
-    else
-    {
-      enclosures.add(
-        {retry 2, {build("HLK_Multimedia_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
-      println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
-    }
-  }
-  else if (testName.indexOf('Camera Driver System Test-MediaCapture-TestPreview') > -1 ||
-          testName.indexOf('Camera Driver System Test-MediaCapture-TestMft0getservice') > -1 ||
-		  testName.indexOf('Camera Driver System Test-MediaCapture-TestPhotoCapture') > -1 ||
-		  testName.indexOf('Camera Driver System Test-MediaCapture-TestFrameReaderWithAllSupportedMediaFormats') > -1 ||
-		  testName.indexOf('Camera Driver System Test-MediaCapture-TestVideoCapture') > -1)
-  {
-    if (TestNode.indexOf('H-SV2-PHX-5') > -1) 
-    {
-      enclosures.add(
-        {retry 2, {build("HLK_Multimedia_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
+        {retry 2, {build("WHQL_MSFT_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
       println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
     }
     else
@@ -341,21 +179,21 @@ def AddTestwithFilter(enclosures, testName, TestNode, isHLK)	//Filtering the tes
   {
     if(isHLK)
     {
-      if (TestNode.indexOf('H-SV2-PHX-5') > -1)
+      if (TestNode.indexOf('Machine') > -1)
       {
 		println("Debug: Skipping: " + testName + " on Node: " + TestNode)
       }
       else
       {
         enclosures.add(
-          {retry 2, {build("HLK_Multimedia_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
+          {retry 2, {build("WHQL_MSFT_Suite", node: TestNode, RunType: "Custom", testNames: testName)}})
         println("Debug: Adding TestName: " + testName + " on Node: " + TestNode)
           
       }
     }
     else
     {
-      if (TestNode.indexOf('H-SV2-PHX-5') > -1)
+      if (TestNode.indexOf('Machine') > -1)
       {
 		println("Debug: Skipping: " + testName + " on Node: " + TestNode)
       }
@@ -427,7 +265,7 @@ def SetNodeBusy(currNode)
 }
 
 
-//-------------------------------------------------------Check Parameters-------------------------------------------------------//
+//-------------------------------------------------------Check Parameters on our requirement-------------------------------------------------------//
 def TestNode = params["Node"].replaceAll("\\s","")
 def SkipSetup = params["Skip_Setup"].replaceAll("\\s","")
 def DriverType = params["Driver_Type"].replaceAll("\\s","")
@@ -437,10 +275,12 @@ def BuildId = params["Build_id"].replaceAll("\\s","")
 def DriverComponent = params["Driver_Component"].replaceAll("\\s","")
 def TimeoutMinutes = params["Timeout_Minutes"].toInteger()
 
+//-------------------------------------------------------Based on requirements-------------------------------------------------------//
+
 // Print Parameters
 println("\n\n\n")
 println("----------------------------------------------------------------------------------------------")
-println("DXXP Test Begin on Node: " + TestNode)
+println("Test Begin on Node: " + TestNode)
 println("\tInput Params:")
 println("\tSkipSetup: " + SkipSetup)
 println("\tDriverType: " + DriverType)
@@ -510,7 +350,7 @@ def task1 = timer1.runAfter(timemillis)
 }
 println "Current date is ${new Date()}. The abort timer is set at ${new Date(task1.scheduledExecutionTime())}."
 
-//-----------------------------------------------------Driver Installation------------------------------------------------------//
+//-----------------------------------------------------Driver Installation on requirement------------------------------------------------------//
 
 if (SkipSetup.indexOf("false") > -1)
 {
@@ -529,7 +369,7 @@ if (SkipSetup.indexOf("false") > -1)
 
       // Use tags to distinguish jobs, otherwise jobs with same parameter will be merged to one
         
-    if (DriverType == 'Mainline')
+    if (DriverType == '***')
     {  
       install_driver_enclosures.add({build('Uninstall All Previous Display Adapter Drivers', node: TestNode, tag: '1')})
       install_driver_enclosures.add({build('Uninstall All Previous Display Adapter Drivers', node: TestNode, tag: '2')})
@@ -543,29 +383,29 @@ if (SkipSetup.indexOf("false") > -1)
       //install_driver_enclosures.add({retry 2, {build('Verify_Driver_INF_Match', node: TestNode)}})
     }
     
-    else if (DriverType == 'OSDB' || DriverType == 'PSDB')
+    else if (DriverType == '***' || DriverType == '***')
     {
-      //install_driver_enclosures.add({build('DisableDXXPRegkey', node: TestNode)})
+      //install_driver_enclosures.add({build('DisableRegkey', node: TestNode)})
       install_driver_enclosures.add({build('Restart_Node', node: TestNode, tag: '2')})
       install_driver_enclosures.add({build('Replace binaries', node: TestNode, BUILD_PATH: params["BUILD_PATH"], Driver_Type: params["Driver_Type"], CLNUM: params["CLNUM"])})
       //install_driver_enclosures.add({retry 2, {build('Verify_Driver_INF_Match', node: TestNode)}})
     }
      
-    else if (DriverType == 'DX9P_PSDB' || DriverType == 'DX9P_OSDB')
+    else if (DriverType == '***' || DriverType == '***')
     {
       install_driver_enclosures.add({build('Restart_Node', node: TestNode, tag: '2')})
-      install_driver_enclosures.add({build('ReplaceDX9PBinaries', node: TestNode, BUILD_PATH: params["BUILD_PATH"], Driver_Type: params["Driver_Type"], CLNUM: params["CLNUM"])})
+      install_driver_enclosures.add({build('ReplaceBinaries', node: TestNode, BUILD_PATH: params["BUILD_PATH"], Driver_Type: params["Driver_Type"], CLNUM: params["CLNUM"])})
       install_driver_enclosures.add({retry 2, {build('Verify_Driver_INF_Match', node: TestNode)}})
     }
 
-     else if (DriverType == 'DXCP_PSDB' || DriverType == 'DXCP_OSDB')
+     else if (DriverType == '***' || DriverType == '***')
     {
       install_driver_enclosures.add({build('Restart_Node', node: TestNode, tag: '2')})
-      install_driver_enclosures.add({build('ReplaceDXCPBinaries', node: TestNode, BUILD_PATH: params["BUILD_PATH"], Driver_Type: params["Driver_Type"], CLNUM: params["CLNUM"])})
+      install_driver_enclosures.add({build('ReplaceBinaries', node: TestNode, BUILD_PATH: params["BUILD_PATH"], Driver_Type: params["Driver_Type"], CLNUM: params["CLNUM"])})
       //install_driver_enclosures.add({retry 2, {build('Verify_Driver_INF_Match', node: TestNode)}})
     }  
     
-    else if (DriverType == 'DXXP_OSDB_Nightly')
+    else if (DriverType == '***_Nightly')
     {  
       install_driver_enclosures.add({build('Uninstall All Previous Display Adapter Drivers', node: TestNode, tag: '1')})
       install_driver_enclosures.add({build('Uninstall All Previous Display Adapter Drivers', node: TestNode, tag: '2')})
@@ -620,7 +460,7 @@ else
   println("\n\n\n")
 } 
 
-if ((DriverType == 'Mainline') && ((TestNode == 'H-W10-NV21-10') ||  (TestNode == 'H-W10-NV14-2') ||  (TestNode == 'H-W10-NV21-2')))
+if ((DriverType == '***') && ((TestNode == 'Machine') ||  (TestNode == 'Machine') ||  (TestNode == 'Machine')))
 {
   
 }
@@ -679,7 +519,7 @@ else
     
     
     def enclosures = []
-    def mainline_testList = []
+    def job_testList = []
     def whql_testList = []
     def hlk_encodeList = []
     def hlk_decodeList = []
@@ -688,10 +528,10 @@ else
     def hlk_cameraTest = []
     
     
-    if (params["AMD_Tests"] != "")
+    if (params["JOB_Tests"] != "")
     {
       def isHLK = false
-      mainline_testList = params["AMD_Tests"].split(", ")
+      mainline_testList = params["JOB_Tests"].split(", ")
       println("Here is our mainline custom test list: " + mainline_testList + ", with size: " + mainline_testList.length)
       mainline_testList.each { testName ->
         AddTestwithFilter(enclosures, testName, TestNode, isHLK)
@@ -763,7 +603,7 @@ else
     }
     
     println("----------------------------------------------------------------------------------------------")
-    println("DXXP Test End")
+    println("Test End")
     println("----------------------------------------------------------------------------------------------")
     println("\n\n\n")
 }
