@@ -73,13 +73,13 @@ println("\n\n\n")
 
 //-----------------------------------------------------Check Available Node-----------------------------------------------------//
 def runNodes = []
-def offlineAsics = []
+def offlineMachine = []
 
 println("----------------------------------------------------------------------------------------------")
 println("Looking for available nodes...")
 println("----------------------------------------------------------------------------------------------")
 
-asicFamilies.each { asicFamily ->
+Name of the machine.each { Machine Family ->
   println("----------------------------------------------------------------------------------------------")
   println("Searching Node for Machine: " + Name of the machine)
   def availabe_nodes = []
@@ -172,5 +172,5 @@ parallel (enclosures)
 if (!offlineMachine.empty)
 {
   // print warning (It will show up in email report)
-  println("WARNING: Offline Asic Detected: " + offlineAsics.join(", "))
+  println("WARNING: Offline Machine Detected: " + offlineMachine.join(", "))
 }
